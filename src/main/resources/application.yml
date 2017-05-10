@@ -1,0 +1,93 @@
+spring:
+  profiles:
+    active: test
+
+---
+spring:
+  profiles: test
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+  datasource:
+    name: wutang
+    url: jdbc:mysql://223.167.85.2:40788/wutang?useUnicode=true&characterEncoding=UTF-8&amp;amp;autoReconnect=true
+    username: lt
+    password: lt7jiannan
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+server:
+  port: 8081
+  session-timeout: 60
+  context-path: /admin
+  tomcat:
+      max-threads: 800
+logging:
+  level:
+    org.springframework:
+      data: DEBUG
+      security: DEBUG
+jwt:
+  header: Authorization
+  secret: sugarSecret
+  expiration: 604800
+  tokenHead: "Bearer "
+
+user:
+  username: admin
+  password: $2a$10$ywum1SfKueP/DNfo4VRsjO7/Vfn0fmaEE7SwFVIiZS2xZk09z0i5q
+  roles:
+    - ROLE_ADMIN
+---
+
+spring:
+  profiles: pro
+  datasource:
+    name: wutang
+    url: jdbc:mysql://sugarnew.mysql.rds.aliyuncs.com:3306/sugarfree?useUnicode=true&characterEncoding=UTF-8&amp;amp;autoReconnect=true
+    username: uop_sf6
+    password: U6s123
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+server:
+  port: 8081
+  context-path: /admin
+  tomcat:
+    access_log_enabled: true
+    basedir: target/tomcat
+    max-threads: 800

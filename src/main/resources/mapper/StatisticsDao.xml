@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sugarfree.dao.mapper.StatisticsDao" >
+
+    <select id="getPushStatByDate" resultType="com.sugarfree.dao.model.TPushStat"
+            parameterType="String">
+            SELECT tm.id AS columnId,
+            tm.`name` AS columnName,
+            a.article_id AS articleId,
+            a.article_title AS articleTitle,
+            a.pushTime AS pushTime,
+            a.pushNum AS pushNum,
+            CASE WHEN b.openNum IS NULL THEN 0 ELSE b.openNum END AS openNum
+            FROM
+            (SELECT t.fk_article_id AS article_id,t.article_title,COUNT(1) AS pushNum,DATE(t.push_time) AS pushTime
+            FROM t_subscriber_push t
+            WHERE DATE(t.push_time) = DATE(#{date})
+            GROUP BY t.fk_article_id
+            ) a LEFT JOIN
+            (SELECT t.fk_article_id AS article_id,COUNT(1) AS openNum FROM t_article_stat t
+            LEFT JOIN t_subscriber_push tp ON t.fk_wx_user_id = tp.fk_wx_user_id AND t.fk_article_id = tp.fk_article_id
+            WHERE DATE(tp.push_time) = DATE(#{date})
+            AND DATE(tp.push_time) = DATE(t.create_time)
+            AND t.type ='0'
+            GROUP BY t.fk_article_id)
+            b ON a.article_id = b.article_id
+            INNER JOIN t_article ta ON a.article_id = ta.id
+            INNER JOIN t_menu tm ON tm.id = ta.fk_menu_id
+    </select>
+
+</mapper>
