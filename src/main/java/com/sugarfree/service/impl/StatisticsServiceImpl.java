@@ -62,7 +62,7 @@ public class StatisticsServiceImpl implements StatisticsService{
         List<StatisticsOutVo> list = tPushStats.stream().map(t -> {
             StatisticsOutVo stat = new StatisticsOutVo();
             BeanUtils.copyProperties(t, stat);
-            BigDecimal decimal = BigDecimal.valueOf(t.getOpenNum()).divide(BigDecimal.valueOf(t.getPushNum()), 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+            BigDecimal decimal = BigDecimal.valueOf(t.getOpenNum()).divide(BigDecimal.valueOf(t.getPushNum()), 3, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
             stat.setDensity(decimal.doubleValue() + "%");
             return stat;
         }).collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class StatisticsServiceImpl implements StatisticsService{
         Integer totalOpenNum = this.statisticsDao.getTotalOpenNum(inVo);
         outVo.setTotalPushNum(totalPushNum);
         outVo.setTotalOpenNum(totalOpenNum);
-        BigDecimal decimal = BigDecimal.valueOf(totalOpenNum).divide(BigDecimal.valueOf(totalPushNum), 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+        BigDecimal decimal = BigDecimal.valueOf(totalOpenNum).divide(BigDecimal.valueOf(totalPushNum), 3, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
         outVo.setTotalDensity(decimal.doubleValue()+"%");
         return outVo;
     }
