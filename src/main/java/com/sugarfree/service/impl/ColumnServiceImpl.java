@@ -35,7 +35,8 @@ public class ColumnServiceImpl implements ColumnService{
         Example example = new Example(TMenu.class);
         example.createCriteria()
                 .andEqualTo("deleteState","0")
-                .andLike("id","10%");
+                .andLike("id","10%")
+                .andNotEqualTo("id","10");
         example.orderBy("id").asc();
         List<TMenu> tMenus = this.tMenuMapper.selectByExample(example);
         return tMenus.stream().map(t->{
