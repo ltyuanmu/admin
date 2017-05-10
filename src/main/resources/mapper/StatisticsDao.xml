@@ -33,16 +33,16 @@
                 select SUM(t.push_num) FROM t_push_stat t
                 <where>
                         <if test="columnId !=null">
-                                t.column_id = #{columnId}
+                                AND t.column_id = #{columnId}
                         </if>
                         <if test="articleId !=null">
-                                t.article_id = #{articleId}
+                                AND t.article_id = #{articleId}
                         </if>
                         <if test="startDate !=null and startDate!=''">
-                                t.push_time &gt;= #{startDate}
+                                AND t.push_time &gt;= #{startDate}
                         </if>
                         <if test="endDate !=null and endDate!=''">
-                                t.push_time &lt;= #{endDate}
+                                AND t.push_time &lt;= #{endDate}
                         </if>
                 </where>
         </select>
@@ -52,16 +52,17 @@
                 select SUM(t.open_num) FROM t_push_stat t
                 <where>
                         <if test="columnId !=null">
-                                t.column_id = #{columnId}
+                                AND t.column_id = #{columnId}
                         </if>
+
                         <if test="articleId !=null">
-                                t.article_id = #{articleId}
+                                AND t.article_id = #{articleId}
                         </if>
                         <if test="startDate !=null and startDate!=''">
-                                t.push_time &gt;= #{startDate}
+                                AND t.push_time &gt;= #{startDate}
                         </if>
                         <if test="endDate !=null and endDate!=''">
-                                t.push_time &lt;= #{endDate}
+                                AND t.push_time &lt;= #{endDate}
                         </if>
                 </where>
         </select>

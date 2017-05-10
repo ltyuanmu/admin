@@ -39,11 +39,6 @@ server:
   context-path: /admin
   tomcat:
       max-threads: 800
-logging:
-  level:
-    org.springframework:
-      data: DEBUG
-      security: DEBUG
 jwt:
   header: Authorization
   secret: sugarSecret
