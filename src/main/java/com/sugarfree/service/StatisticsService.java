@@ -1,7 +1,9 @@
 package com.sugarfree.service;
 
+import com.github.pagehelper.Page;
 import com.sugarfree.invo.StatisticsInVo;
 import com.sugarfree.outvo.StatisticsOutVo;
+import com.sugarfree.outvo.StatisticsPageOutVo;
 
 /**
  * @ClassName: 统计服务
@@ -15,7 +17,7 @@ public interface StatisticsService {
      * @param inVo
      * @return
      */
-    StatisticsOutVo queryStatistics(StatisticsInVo inVo);
+    StatisticsPageOutVo queryStatistics(StatisticsInVo inVo);
 
     /**
      * 保存当天推送统计

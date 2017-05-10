@@ -11,11 +11,11 @@ import java.util.Date;
  * @date: 2017/5/9
  */
 @Data
-public class StatisticsInVo {
+public class StatisticsInVo extends BasePageParamInVo{
     /**开始时间*/
-    private Date startDate;
+    private String startDate;
     /**结束时间*/
-    private Date endDate;
+    private String endDate;
     /**栏目id*/
     private Integer columnId;
     /**文章id*/

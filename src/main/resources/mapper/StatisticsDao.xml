@@ -28,4 +28,42 @@
             INNER JOIN t_menu tm ON tm.id = ta.fk_menu_id
     </select>
 
+        <select id="getTotalPushNum" resultType="Integer"
+                parameterType="com.sugarfree.invo.StatisticsInVo">
+                select SUM(t.push_num) FROM t_push_stat t
+                <where>
+                        <if test="columnId !=null">
+                                t.column_id = #{columnId}
+                        </if>
+                        <if test="articleId !=null">
+                                t.article_id = #{articleId}
+                        </if>
+                        <if test="startDate !=null and startDate!=''">
+                                t.push_time &gt;= #{startDate}
+                        </if>
+                        <if test="endDate !=null and endDate!=''">
+                                t.push_time &lt;= #{endDate}
+                        </if>
+                </where>
+        </select>
+
+        <select id="getTotalOpenNum" resultType="Integer"
+                parameterType="com.sugarfree.invo.StatisticsInVo">
+                select SUM(t.open_num) FROM t_push_stat t
+                <where>
+                        <if test="columnId !=null">
+                                t.column_id = #{columnId}
+                        </if>
+                        <if test="articleId !=null">
+                                t.article_id = #{articleId}
+                        </if>
+                        <if test="startDate !=null and startDate!=''">
+                                t.push_time &gt;= #{startDate}
+                        </if>
+                        <if test="endDate !=null and endDate!=''">
+                                t.push_time &lt;= #{endDate}
+                        </if>
+                </where>
+        </select>
+
 </mapper>

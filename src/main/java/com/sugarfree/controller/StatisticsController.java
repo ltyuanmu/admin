@@ -1,6 +1,10 @@
 package com.sugarfree.controller;
 
 import com.google.gson.Gson;
+import com.sugarfree.invo.StatisticsInVo;
+import com.sugarfree.outvo.StatisticsPageOutVo;
+import com.sugarfree.service.StatisticsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,11 +27,13 @@ import javax.servlet.http.HttpSession;
 @PreAuthorize("hasRole('ADMIN')")
 public class StatisticsController {
 
+    @Autowired
+    private StatisticsService statisticsService;
+
     @GetMapping(value = "/push", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity pushStat(String username){
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
-        return ResponseEntity.ok().body(new Gson().toJson(principal));
+    public ResponseEntity pushStat(StatisticsInVo inVo){
+        StatisticsPageOutVo outVo = this.statisticsService.queryStatistics(inVo);
+        return ResponseEntity.ok().body(outVo);
     }
+
 }

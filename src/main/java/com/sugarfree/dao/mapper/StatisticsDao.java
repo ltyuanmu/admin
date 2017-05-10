@@ -1,6 +1,7 @@
 package com.sugarfree.dao.mapper;
 
 import com.sugarfree.dao.model.TPushStat;
+import com.sugarfree.invo.StatisticsInVo;
 
 import java.util.List;
 
@@ -17,4 +18,18 @@ public interface StatisticsDao {
      * @return
      */
     List<TPushStat> getPushStatByDate(String date);
+
+    /**
+     * 获得推送人总数
+     * @param inVo
+     * @return
+     */
+    Integer getTotalPushNum(StatisticsInVo inVo);
+
+    /**
+     * 获得打开人总数
+     * @param inVo
+     * @return
+     */
+    Integer getTotalOpenNum(StatisticsInVo inVo);
 }

@@ -1,18 +1,28 @@
 package com.sugarfree.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sugarfree.dao.mapper.StatisticsDao;
 import com.sugarfree.dao.mapper.TPushStatMapper;
 import com.sugarfree.dao.model.TPushStat;
 import com.sugarfree.invo.StatisticsInVo;
 import com.sugarfree.outvo.StatisticsOutVo;
+import com.sugarfree.outvo.StatisticsPageOutVo;
 import com.sugarfree.service.StatisticsService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: ${}
@@ -21,6 +31,7 @@ import java.util.List;
  * @date: 2017/5/10
  */
 @Service
+@Transactional
 public class StatisticsServiceImpl implements StatisticsService{
 
     @Autowired
@@ -29,8 +40,45 @@ public class StatisticsServiceImpl implements StatisticsService{
     private TPushStatMapper tPushStatMapper;
 
     @Override
-    public StatisticsOutVo queryStatistics(StatisticsInVo inVo) {
-        return null;
+    public StatisticsPageOutVo queryStatistics(StatisticsInVo inVo) {
+        Example example = new Example(TPushStat.class);
+        Example.Criteria criteria = example.createCriteria();
+        if(inVo.getColumnId()!=null){
+            criteria.andEqualTo("columnId",inVo.getColumnId());
+        }
+        if(inVo.getArticleId()!=null){
+            criteria.andEqualTo("articleId",inVo.getArticleId());
+        }
+        if (StringUtils.isNotEmpty(inVo.getStartDate())){
+            criteria.andGreaterThanOrEqualTo("pushTime",inVo.getStartDate());
+        }
+        if(StringUtils.isNotEmpty(inVo.getEndDate())){
+            criteria.andLessThanOrEqualTo("pushTime",inVo.getEndDate());
+        }
+        example.orderBy("pushTime").desc().orderBy("columnId").asc().orderBy("articleId").asc();
+        PageHelper.startPage(inVo.getPageNo(),inVo.getPageSize());
+        List<TPushStat> tPushStats = this.tPushStatMapper.selectByExample(example);
+        PageInfo<TPushStat> pageInfo = new PageInfo<>(tPushStats);
+        List<StatisticsOutVo> list = tPushStats.stream().map(t -> {
+            StatisticsOutVo stat = new StatisticsOutVo();
+            BeanUtils.copyProperties(t, stat);
+            BigDecimal decimal = BigDecimal.valueOf(t.getOpenNum()).divide(BigDecimal.valueOf(t.getPushNum()), 2, RoundingMode.HALF_UP);
+            stat.setDensity(decimal.doubleValue() + "%");
+            return stat;
+        }).collect(Collectors.toList());
+        StatisticsPageOutVo outVo = new StatisticsPageOutVo();
+        outVo.setCount(pageInfo.getTotal());
+        outVo.setList(list);
+        outVo.setPageNo(inVo.getPageNo());
+        outVo.setPageSize(inVo.getPageSize());
+        //获得查询条件总打开数和总推送数
+        Integer totalPushNum = this.statisticsDao.getTotalPushNum(inVo);
+        Integer totalOpenNum = this.statisticsDao.getTotalOpenNum(inVo);
+        outVo.setTotalPushNum(totalPushNum);
+        outVo.setTotalOpenNum(totalOpenNum);
+        BigDecimal decimal = BigDecimal.valueOf(totalOpenNum).divide(BigDecimal.valueOf(totalPushNum), 2, RoundingMode.HALF_UP);
+        outVo.setTotalDensity(decimal.doubleValue()+"%");
+        return outVo;
     }
 
     @Override

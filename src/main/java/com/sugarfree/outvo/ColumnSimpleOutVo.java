@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class ColumnSimpleOutVo {
     /**栏目id*/
-    private String columnId;
+    private Integer columnId;
     /**栏目名*/
     private String columnName;
 

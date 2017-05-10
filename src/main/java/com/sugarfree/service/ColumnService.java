@@ -23,5 +23,5 @@ public interface ColumnService {
      * @param columnId
      * @return
      */
-    List<ArticleSimpleOutVo> getSimpleArticleList(String columnId);
+    List<ArticleSimpleOutVo> getSimpleArticleList(Integer columnId);
 }
