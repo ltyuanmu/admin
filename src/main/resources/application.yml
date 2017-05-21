@@ -45,6 +45,12 @@ jwt:
   expiration: 604800
   tokenHead: "Bearer "
 
+qiniu:
+  accessKey: svs21eWENF8epz5BcjYVp40pEvLASGfo0CpXK3EJ
+  secretKey: d6k7eeu-urqvGMyebNtwjbG4I41lou8_vfpXCnZt
+  bucket: images
+  domainOfBucket: http://oqafpeew0.bkt.clouddn.com/
+
 user:
   username: admin
   password: $2a$10$ywum1SfKueP/DNfo4VRsjO7/Vfn0fmaEE7SwFVIiZS2xZk09z0i5q

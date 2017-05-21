@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,4 +65,6 @@ public class ColumnServiceImpl implements ColumnService{
             return outVo;
         }).collect(Collectors.toList());
     }
+
+
 }
