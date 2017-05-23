@@ -1,7 +1,5 @@
 package com.sugarfree.controller;
 
-import com.google.gson.Gson;
-import com.sugarfree.configuration.User;
 import com.sugarfree.invo.AuthInVo;
 import com.sugarfree.outvo.AuthOutVo;
 import com.sugarfree.service.AuthService;
@@ -10,12 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @ClassName: ${}
@@ -32,7 +27,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping(value = "auth")
+    @PostMapping(value = "auth" ,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> createAuthenticationToken(
             AuthInVo authInVo) throws AuthenticationException {
         final String token = authService.login(authInVo.getUsername(), authInVo.getPassword());
@@ -40,7 +35,7 @@ public class AuthController {
         return ResponseEntity.ok(new AuthOutVo(token));
     }
 
-    @PostMapping(value = "refresh")
+    @PostMapping(value = "refresh",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(
             HttpServletRequest request) throws AuthenticationException{
         String token = request.getHeader(tokenHeader);
