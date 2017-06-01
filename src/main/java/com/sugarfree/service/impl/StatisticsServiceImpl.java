@@ -2,6 +2,8 @@ package com.sugarfree.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sugarfree.dao.mapper.StatisticsDao;
 import com.sugarfree.dao.mapper.TPushStatMapper;
 import com.sugarfree.dao.model.TPushStat;
@@ -9,6 +11,7 @@ import com.sugarfree.invo.StatisticsInVo;
 import com.sugarfree.outvo.StatisticsOutVo;
 import com.sugarfree.outvo.StatisticsPageOutVo;
 import com.sugarfree.service.StatisticsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ import java.util.stream.Collectors;
  * @date: 2017/5/10
  */
 @Service
+@Slf4j
 @Transactional
 public class StatisticsServiceImpl implements StatisticsService{
 
@@ -94,7 +98,9 @@ public class StatisticsServiceImpl implements StatisticsService{
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(calendar.getTime());
         //获取上一天的所有统计数据
+        log.info("date :{}",date);
         List<TPushStat> pushStatByDate = this.statisticsDao.getPushStatByDate(date);
+        log.info("pushStatByDate :{}",new Gson().toJson(pushStatByDate));
         //保存到表中
         pushStatByDate.forEach(tPushStatMapper::insertSelective);
     }
