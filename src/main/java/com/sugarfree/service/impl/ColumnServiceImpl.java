@@ -20,6 +20,7 @@ import tk.mybatis.mapper.entity.Example;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -95,6 +96,7 @@ public class ColumnServiceImpl implements ColumnService{
         TColumnThird tColumnThird = new TColumnThird();
         BeanUtils.copyProperties(inVo, tColumnThird);
         tColumnThird.setDeleteState("0");
+        tColumnThird.setCreateTime(new Date());
         this.tColumnThirdMapper.insertSelective(tColumnThird);
     }
 
