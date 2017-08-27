@@ -35,7 +35,7 @@ public class ColumnController {
     }
 
     @GetMapping(value = "/{columnId}/article", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getArticleByColumnId(@PathVariable Integer columnId){
+         public ResponseEntity getArticleByColumnId(@PathVariable Integer columnId){
         List<ArticleSimpleOutVo> simpleArticleList = columnService.getSimpleArticleList(columnId);
         return ResponseEntity.ok().body(simpleArticleList);
     }

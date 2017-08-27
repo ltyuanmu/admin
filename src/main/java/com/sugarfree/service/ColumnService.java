@@ -1,7 +1,10 @@
 package com.sugarfree.service;
 
+import com.sugarfree.dao.model.TColumnThird;
+import com.sugarfree.invo.ColumnThirdInVo;
 import com.sugarfree.outvo.ArticleSimpleOutVo;
 import com.sugarfree.outvo.ColumnSimpleOutVo;
+import com.sugarfree.outvo.ColumnThirdOutVo;
 
 import java.util.List;
 
@@ -24,4 +27,13 @@ public interface ColumnService {
      * @return
      */
     List<ArticleSimpleOutVo> getSimpleArticleList(Integer columnId);
+
+    List<ColumnThirdOutVo> getColumnThirdList();
+
+    void saveColumnThird(ColumnThirdInVo inVo);
+
+    void modifyColumnThird(Integer id,ColumnThirdInVo inVo);
+
+    void deleteColumnThird(Integer id);
+
 }

@@ -1,12 +1,17 @@
 package com.sugarfree.service.impl;
 
 import com.sugarfree.dao.mapper.TArticleMapper;
+import com.sugarfree.dao.mapper.TColumnThirdMapper;
 import com.sugarfree.dao.mapper.TMenuMapper;
 import com.sugarfree.dao.model.TArticle;
+import com.sugarfree.dao.model.TColumnThird;
 import com.sugarfree.dao.model.TMenu;
+import com.sugarfree.invo.ColumnThirdInVo;
 import com.sugarfree.outvo.ArticleSimpleOutVo;
 import com.sugarfree.outvo.ColumnSimpleOutVo;
+import com.sugarfree.outvo.ColumnThirdOutVo;
 import com.sugarfree.service.ColumnService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +21,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +38,9 @@ public class ColumnServiceImpl implements ColumnService{
 
     @Autowired
     public TArticleMapper tArticleMapper;
+
+    @Autowired
+    public TColumnThirdMapper tColumnThirdMapper;
 
     @Override
     public List<ColumnSimpleOutVo> getSimpleColumnList() {
@@ -64,6 +73,45 @@ public class ColumnServiceImpl implements ColumnService{
             outVo.setArticleTitle(t.getTitle());
             return outVo;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ColumnThirdOutVo> getColumnThirdList() {
+        TColumnThird tColumnThird = new TColumnThird();
+        tColumnThird.setDeleteState("0");
+        List<TColumnThird> list = this.tColumnThirdMapper.select(tColumnThird);
+        List<ColumnThirdOutVo> outVos = list.stream().map(t -> {
+            ColumnThirdOutVo outVo = new ColumnThirdOutVo();
+            BeanUtils.copyProperties(t, outVo);
+            return outVo;
+        }).collect(Collectors.toList());
+        outVos.sort((t1,t2)->t1.getSort()-t2.getSort());
+
+        return outVos;
+    }
+
+    @Override
+    public void saveColumnThird(ColumnThirdInVo inVo) {
+        TColumnThird tColumnThird = new TColumnThird();
+        BeanUtils.copyProperties(inVo, tColumnThird);
+        tColumnThird.setDeleteState("0");
+        this.tColumnThirdMapper.insertSelective(tColumnThird);
+    }
+
+    @Override
+    public void modifyColumnThird(Integer id, ColumnThirdInVo inVo) {
+        TColumnThird tColumnThird = new TColumnThird();
+        BeanUtils.copyProperties(inVo, tColumnThird);
+        tColumnThird.setId(id);
+        this.tColumnThirdMapper.updateByPrimaryKeySelective(tColumnThird);
+    }
+
+    @Override
+    public void deleteColumnThird(Integer id) {
+        TColumnThird tColumnThird = new TColumnThird();
+        tColumnThird.setId(id);
+        tColumnThird.setDeleteState("1");
+        this.tColumnThirdMapper.updateByPrimaryKeySelective(tColumnThird);
     }
 
 
