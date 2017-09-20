@@ -57,10 +57,6 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public void deleteMenu(Integer id) {
-        TMenuNew tMenuNew = new TMenuNew();
-        tMenuNew.setId(id);
-        tMenuNew.setUpdateTime(new Date());
-        tMenuNew.setDeleteState("0");
-        this.tMenuNewMapper.updateByPrimaryKeySelective(tMenuNew);
+        this.tMenuNewMapper.deleteByPrimaryKey(id);
     }
 }
