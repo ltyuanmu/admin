@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sugarfree.dao.mapper.TActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.sugarfree.dao.model.TActivity" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="activity_name" property="activityName" jdbcType="VARCHAR" />
+    <result column="activity_start" property="activityStart" jdbcType="TIMESTAMP" />
+    <result column="activity_end" property="activityEnd" jdbcType="TIMESTAMP" />
+    <result column="activity_prize_count" property="activityPrizeCount" jdbcType="INTEGER" />
+    <result column="help_count" property="helpCount" jdbcType="INTEGER" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="TINYINT" />
+  </resultMap>
+</mapper>
